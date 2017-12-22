@@ -11,6 +11,10 @@ class Game {
     private int[][] nextDay = new int[COUNT_MONTHS][31];
     private int[][] nextMonth = new int[COUNT_MONTHS][31];
 
+    public int[][] getSolution() {
+        return solution;
+    }
+
     void run() {
         solve();
         Scanner sc = new Scanner(System.in); //создаем объект класса Scanner
@@ -55,7 +59,7 @@ class Game {
                     prevMonth = month;
                     System.out.println((day + 2) + " " + (month + 1));
                     if ((day + 1 == 30) && (month == 11)) {
-                        System.out.println("Вы проиграл");
+                        System.out.println("Вы проиграли");
                         return;
                     }
                 } else {
@@ -63,7 +67,7 @@ class Game {
                     prevMonth = month + 1;
                     System.out.println((day + 1) + " " + (month + 2));
                     if ((day == 30) && (month + 1 == 11)) {
-                        System.out.println("Вы проиграли! ");
+                        System.out.println("Вы проиграли ");
                         return;
                     }
                 }
@@ -71,7 +75,7 @@ class Game {
         }
     }
 
-    private void solve() {
+    void solve() {
         solution[COUNT_MONTHS - 1][30] = 1;
         for (int month = COUNT_MONTHS - 1; month >= 0; month--) {
             for (int day = DAYS_IN_MONTH[month] - 1; day >= 0; day--) {
