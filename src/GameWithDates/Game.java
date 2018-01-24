@@ -1,6 +1,5 @@
 package GameWithDates;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 class Game {
@@ -19,11 +18,12 @@ class Game {
     void run() {
         solve();
         Scanner sc = new Scanner(System.in); //создаем объект класса Scanner
-        Date curDate = Date.generateDay();
+        Date curDate = Date.generateDay(); //генерируем дату
         System.out.println("Вы: Игрок 1, Компьютер: Игрок 2");
+        System.out.print("Введите два числа через пробел\n");
         System.out.print("Исходная дата: ");
-        curDate.printDate();
-        System.out.print("Введите два числа через пробел...\n");
+        curDate.printDate();//печатаем дату
+
         int prevDay = curDate.getDay(); //текущий день
         int prevMonth = curDate.getMonth(); // текущий месяц
         while (true) {
@@ -41,14 +41,14 @@ class Game {
                     days = sc.next(); //считываем день
                     months = sc.next(); //считываем месяц
                 }
-                day = Integer.parseInt(days) - 1;
-                month = Integer.parseInt(months) - 1;
+                day = Integer.parseInt(days) - 1; // "-1" так как отсчет с 0
+                month = Integer.parseInt(months) - 1; // "-1" так как отсчет с 0
                 if (Date.isCorrectDate(day, month)) {//проверка корректности даты
                     if ((prevDay == day) && ((month - prevMonth == 1) || (month - prevMonth == 2))) {//соответствие условию
-                        isCorrectMove = true;
+                        isCorrectMove = true;//ход корректный
                     }
                     if ((prevMonth == month) && ((day - prevDay == 1) || (day - prevDay == 2))) {//соответствие условию
-                        isCorrectMove = true;
+                        isCorrectMove = true;//ход корректный
                     }
                 }
                 if (!isCorrectMove) {
@@ -69,7 +69,7 @@ class Game {
                     prevDay = day + 1;
                     prevMonth = month;
                     System.out.println((day + 2) + " " + (month + 1));
-                    if ((day + 1 == 30) && (month == 11)) {
+                    if ((day + 1 == 30) && (month == 11)) {//условие проигрыша
                         System.out.println("Вы проиграли");
                         return;
                     }
@@ -77,7 +77,7 @@ class Game {
                     prevDay = day;
                     prevMonth = month + 1;
                     System.out.println((day + 1) + " " + (month + 2));
-                    if ((day == 30) && (month + 1 == 11)) {
+                    if ((day == 30) && (month + 1 == 11)) {//условие проигрыша
                         System.out.println("Вы проиграли ");
                         return;
                     }
@@ -86,17 +86,8 @@ class Game {
         }
     }
 
-    private boolean checkString(String string) {
-        if (string == null || string.length() == 0) return false;
-
+    private boolean checkString(String string) { // метод проверки на соответствие корректности ввода даты
         int i = 0;
-        if (string.charAt(0) == '-') {
-            if (string.length() == 1) {
-                return false;
-            }
-            i = 1;
-        }
-
         char c;
         for (; i < string.length(); i++) {
             c = string.charAt(i);
@@ -112,7 +103,7 @@ class Game {
         solution[COUNT_MONTHS - 1][30] = 1;                                                  //пример таблицы:
         for (int month = COUNT_MONTHS - 1; month >= 0; month--) {                            // { даты    31 30 29 28...}
             for (int day = DAYS_IN_MONTH[month] - 1; day >= 0; day--) {                      // {  ...
-                // { ноябрь  0  1  -1 1... }
+                                                                                             // { ноябрь  0  1  -1 1... }
                 if (Date.isCorrectDate(day + 1, month) && (solution[month][day + 1] == -1)) {// { декабрь 1 -1   1 1... }
                     solution[month][day] = 1;
                     nextDay[month][day] = day + 1; //запоминаем следующий шаг
